@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import os
 
 /// Plays cue sounds and keeps the app's audio session alive for the length of a workout.
 protocol CuePlaying: AnyObject {
@@ -28,6 +29,7 @@ final class WorkoutEngine {
 	/// Cues older than this when a tick finally arrives are skipped rather than played late,
 	/// so returning from a long suspension doesn't produce a burst of beeps.
 	static let staleCueTolerance: TimeInterval = 1.0
+	private static let logger = Logger(subsystem: "com.andrelyver.IntervalTimer", category: "engine")
 
 	private(set) var state: State = .idle
 	private(set) var schedule: WorkoutSchedule?
@@ -93,6 +95,7 @@ final class WorkoutEngine {
 	/// Starts a new workout from the beginning.
 	/// - Parameter config: The workout settings.
 	func start(config: WorkoutConfig) {
+		Self.logger.debug("Starting workout: \(config.intervals) intervals, \(config.totalDuration)s total")
 		schedule = WorkoutSchedule(config: config.clamped())
 		accumulated = 0
 		elapsed = 0

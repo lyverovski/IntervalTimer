@@ -34,6 +34,14 @@ final class WorkoutFlowUITests: XCTestCase {
 		XCTAssertTrue(app.buttons["Start"].waitForExistence(timeout: 2))
 	}
 
+	func testShouldStartWhenTappingAnywhereOnStartButton() throws {
+		let start = app.buttons["Start"]
+		XCTAssertTrue(start.waitForExistence(timeout: 2))
+		// Near the left edge of the capsule, away from the label text.
+		start.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5)).tap()
+		XCTAssertTrue(app.staticTexts["WARM-UP"].waitForExistence(timeout: 2))
+	}
+
 	func testShouldShowToneChoicesInSettings() throws {
 		app.navigationBars.buttons.element(boundBy: 0).tap()
 		// Form rows are created lazily, so check a tone in the first (visible) section.

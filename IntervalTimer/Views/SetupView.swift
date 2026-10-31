@@ -29,17 +29,19 @@ struct SetupView: View {
 				.frame(maxWidth: .infinity)
 				.padding(.vertical, 8)
 			}
-
-			Section {
-				Button(action: onStart) {
-					Text("Start")
-						.font(.title2.weight(.semibold))
-						.frame(maxWidth: .infinity)
-						.padding(.vertical, 8)
-				}
-				.buttonStyle(.borderedProminent)
-				.listRowInsets(EdgeInsets())
+		}
+		// Kept outside the Form so the row's own tap/scroll handling can't swallow the tap.
+		.safeAreaInset(edge: .bottom) {
+			Button(action: onStart) {
+				Text("Start")
+					.font(.title2.weight(.semibold))
+					.frame(maxWidth: .infinity)
+					.padding(.vertical, 8)
 			}
+			.buttonStyle(.borderedProminent)
+			.controlSize(.large)
+			.padding(.horizontal, 20)
+			.padding(.bottom, 8)
 		}
 		.navigationTitle("Interval Timer")
 		.toolbar {
