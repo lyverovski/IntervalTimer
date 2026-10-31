@@ -118,6 +118,8 @@ final class WorkoutEngine {
 		guard state == .paused else { return }
 		resumedAt = now()
 		state = .running
+		// An interruption (e.g. a phone call) may have stopped our audio; reactivate it.
+		cuePlayer.beginSession()
 		startTicking()
 	}
 
