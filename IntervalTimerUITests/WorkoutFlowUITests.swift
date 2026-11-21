@@ -42,6 +42,27 @@ final class WorkoutFlowUITests: XCTestCase {
 		XCTAssertTrue(app.staticTexts["WARM-UP"].waitForExistence(timeout: 2))
 	}
 
+	func testShouldShowLiveActivityAfterLeavingApp() throws {
+		app.buttons["Start"].tap()
+		XCTAssertTrue(app.staticTexts["WARM-UP"].waitForExistence(timeout: 2))
+		XCUIDevice.shared.press(.home)
+		sleep(3)
+		let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+		let island = XCTAttachment(screenshot: springboard.screenshot())
+		island.name = "dynamic-island"
+		island.lifetime = .keepAlways
+		add(island)
+		app.activate()
+		// Wait out the return-to-foreground animation, or the tap is dropped.
+		XCTAssertTrue(app.wait(for: .runningForeground, timeout: 5))
+		XCTAssertTrue(app.buttons["Stop"].waitForExistence(timeout: 5))
+		sleep(1)
+		app.buttons["Stop"].tap()
+		XCTAssertTrue(app.buttons["End Workout"].waitForExistence(timeout: 5))
+		app.buttons["End Workout"].tap()
+		XCTAssertTrue(app.buttons["Start"].waitForExistence(timeout: 5))
+	}
+
 	func testShouldShowToneChoicesInSettings() throws {
 		app.navigationBars.buttons.element(boundBy: 0).tap()
 		// Form rows are created lazily, so check a tone in the first (visible) section.

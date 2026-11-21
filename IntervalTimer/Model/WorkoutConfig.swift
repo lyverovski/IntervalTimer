@@ -39,13 +39,3 @@ nonisolated struct WorkoutConfig: Codable, Equatable, Sendable {
 		return min(max(stepped, range.lowerBound), range.upperBound)
 	}
 }
-
-nonisolated enum TimeFormat {
-	/// Formats a duration as `m:ss`, letting minutes exceed 59 (e.g. `90:15`).
-	/// - Parameter seconds: Non-negative duration in seconds.
-	/// - Returns: The formatted string.
-	static func minutesSeconds(_ seconds: Int) -> String {
-		let clamped = max(seconds, 0)
-		return String(format: "%d:%02d", clamped / 60, clamped % 60)
-	}
-}

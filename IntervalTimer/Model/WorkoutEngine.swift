@@ -13,6 +13,21 @@ protocol CuePlaying: AnyObject {
 	func endSession()
 }
 
+/// Shows the workout on the lock screen and in the Dynamic Island.
+protocol LiveActivityUpdating: AnyObject {
+	/// Starts a Live Activity for a new workout.
+	/// - Parameter state: The initial phase.
+	func start(_ state: WorkoutActivityAttributes.ContentState)
+	/// Replaces what the Live Activity shows.
+	/// - Parameter state: The new phase or paused state.
+	func update(_ state: WorkoutActivityAttributes.ContentState)
+	/// Ends the Live Activity.
+	/// - Parameters:
+	///   - state: The final content to show while it's dismissed.
+	///   - immediately: `true` to remove it at once (stopped), `false` to leave the result up briefly (finished).
+	func end(_ state: WorkoutActivityAttributes.ContentState, immediately: Bool)
+}
+
 /// Runs a workout: tracks elapsed time, the current phase, and fires sound cues on schedule.
 ///
 /// Elapsed time is always derived from the clock rather than counted from ticks, so a late
@@ -36,19 +51,29 @@ final class WorkoutEngine {
 	private(set) var elapsed: TimeInterval = 0
 
 	@ObservationIgnored private let cuePlayer: CuePlaying
+	@ObservationIgnored private let liveActivity: LiveActivityUpdating?
 	@ObservationIgnored private let tickInterval: Duration?
 	@ObservationIgnored private let now: () -> Date
 	@ObservationIgnored private var accumulated: TimeInterval = 0
 	@ObservationIgnored private var resumedAt: Date?
 	@ObservationIgnored private var nextCueIndex = 0
 	@ObservationIgnored private var tickTask: Task<Void, Never>?
+	/// Phase last sent to the Live Activity, so it's only updated when the phase changes.
+	@ObservationIgnored private var reportedPhaseIndex: Int?
 
 	/// - Parameters:
 	///   - cuePlayer: Plays the sounds.
+	///   - liveActivity: Mirrors the workout on the lock screen and Dynamic Island, if available.
 	///   - tickInterval: How often to refresh while running, or `nil` to drive `tick()` manually (tests).
 	///   - now: Clock source.
-	init(cuePlayer: CuePlaying, tickInterval: Duration? = .milliseconds(100), now: @escaping () -> Date = Date.init) {
+	init(
+		cuePlayer: CuePlaying,
+		liveActivity: LiveActivityUpdating? = nil,
+		tickInterval: Duration? = .milliseconds(100),
+		now: @escaping () -> Date = Date.init
+	) {
 		self.cuePlayer = cuePlayer
+		self.liveActivity = liveActivity
 		self.tickInterval = tickInterval
 		self.now = now
 	}
@@ -103,6 +128,10 @@ final class WorkoutEngine {
 		resumedAt = now()
 		state = .running
 		cuePlayer.beginSession()
+		reportedPhaseIndex = currentPhaseIndex
+		if let activityState = activityState() {
+			liveActivity?.start(activityState)
+		}
 		startTicking()
 	}
 
@@ -114,6 +143,7 @@ final class WorkoutEngine {
 		elapsed = accumulated
 		state = .paused
 		stopTicking()
+		sendActivityUpdate()
 	}
 
 	/// Resumes a paused workout from where it left off.
@@ -123,11 +153,16 @@ final class WorkoutEngine {
 		state = .running
 		// An interruption (e.g. a phone call) may have stopped our audio; reactivate it.
 		cuePlayer.beginSession()
+		sendActivityUpdate()
 		startTicking()
 	}
 
 	/// Abandons the workout and returns to idle.
 	func stop() {
+		// A finished workout already ended its Live Activity with the result showing.
+		if state == .running || state == .paused, let activityState = activityState() {
+			liveActivity?.end(activityState, immediately: true)
+		}
 		stopTicking()
 		state = .idle
 		schedule = nil
@@ -160,6 +195,40 @@ final class WorkoutEngine {
 			state = .finished
 			stopTicking()
 			cuePlayer.endSession()
+			if let activityState = activityState() {
+				liveActivity?.end(activityState, immediately: false)
+			}
+		} else if currentPhaseIndex != reportedPhaseIndex {
+			reportedPhaseIndex = currentPhaseIndex
+			sendActivityUpdate()
+		}
+	}
+
+	/// What the Live Activity should show right now, or `nil` with no workout.
+	/// Phase start/end are absolute times so the system can animate the countdown itself.
+	/// - Returns: The content state.
+	func activityState() -> WorkoutActivityAttributes.ContentState? {
+		guard let schedule, let last = schedule.phases.last else { return nil }
+		let current = now()
+		if state == .finished {
+			return WorkoutActivityAttributes.ContentState(
+				phase: last.kind.activityPhase, intervalNumber: totalIntervals, totalIntervals: totalIntervals,
+				phaseStart: current, phaseEnd: current, pausedRemaining: nil, isFinished: true)
+		}
+		guard let phase = currentPhase else { return nil }
+		return WorkoutActivityAttributes.ContentState(
+			phase: phase.kind.activityPhase,
+			intervalNumber: intervalNumber,
+			totalIntervals: totalIntervals,
+			phaseStart: current.addingTimeInterval(Double(phase.start) - elapsed),
+			phaseEnd: current.addingTimeInterval(Double(phase.end) - elapsed),
+			pausedRemaining: state == .paused ? phaseRemaining : nil
+		)
+	}
+
+	private func sendActivityUpdate() {
+		if let activityState = activityState() {
+			liveActivity?.update(activityState)
 		}
 	}
 

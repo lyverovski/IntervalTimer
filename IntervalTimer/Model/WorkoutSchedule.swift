@@ -7,6 +7,18 @@ nonisolated enum PhaseKind: Equatable, Sendable {
 	case rest(number: Int)
 }
 
+extension PhaseKind {
+	/// The phase as shown in the Live Activity (interval numbers dropped).
+	nonisolated var activityPhase: ActivityPhase {
+		switch self {
+		case .getReady: .getReady
+		case .warmUp: .warmUp
+		case .work: .work
+		case .rest: .rest
+		}
+	}
+}
+
 nonisolated struct Phase: Equatable, Sendable {
 	let kind: PhaseKind
 	/// Offset from workout start, in seconds.

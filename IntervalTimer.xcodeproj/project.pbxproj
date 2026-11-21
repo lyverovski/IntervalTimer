@@ -6,7 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C0FFEE00000000000000000C /* IntervalTimerWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C0FFEE000000000000000001 /* IntervalTimerWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
+		C0FFEE00000000000000000D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FB55FF333096430200AB4A95 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C0FFEE000000000000000004;
+			remoteInfo = IntervalTimerWidgetExtension;
+		};
 		FB55FF493096430200AB4A95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FB55FF333096430200AB4A95 /* Project object */;
@@ -23,10 +34,25 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C0FFEE00000000000000000B /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C0FFEE00000000000000000C /* IntervalTimerWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		FB55FF3B3096430200AB4A95 /* IntervalTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntervalTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB55FF483096430200AB4A95 /* IntervalTimerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IntervalTimerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB55FF523096430300AB4A95 /* IntervalTimerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IntervalTimerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0FFEE000000000000000001 /* IntervalTimerWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = IntervalTimerWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -43,6 +69,16 @@
 		FB55FF553096430300AB4A95 /* IntervalTimerUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = IntervalTimerUITests;
+			sourceTree = "<group>";
+		};
+		C0FFEE000000000000000003 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		C0FFEE000000000000000002 /* IntervalTimerWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = IntervalTimerWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -69,6 +105,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C0FFEE000000000000000006 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -77,6 +120,8 @@
 			children = (
 				FB55FF3D3096430200AB4A95 /* IntervalTimer */,
 				FB55FF4B3096430200AB4A95 /* IntervalTimerTests */,
+				C0FFEE000000000000000003 /* Shared */,
+				C0FFEE000000000000000002 /* IntervalTimerWidget */,
 				FB55FF553096430300AB4A95 /* IntervalTimerUITests */,
 				FB55FF3C3096430200AB4A95 /* Products */,
 			);
@@ -88,6 +133,7 @@
 				FB55FF3B3096430200AB4A95 /* IntervalTimer.app */,
 				FB55FF483096430200AB4A95 /* IntervalTimerTests.xctest */,
 				FB55FF523096430300AB4A95 /* IntervalTimerUITests.xctest */,
+				C0FFEE000000000000000001 /* IntervalTimerWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -102,13 +148,16 @@
 				FB55FF373096430200AB4A95 /* Sources */,
 				FB55FF383096430200AB4A95 /* Frameworks */,
 				FB55FF393096430200AB4A95 /* Resources */,
+				C0FFEE00000000000000000B /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C0FFEE00000000000000000E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				FB55FF3D3096430200AB4A95 /* IntervalTimer */,
+				C0FFEE000000000000000003 /* Shared */,
 			);
 			name = IntervalTimer;
 			packageProductDependencies = (
@@ -163,6 +212,29 @@
 			productReference = FB55FF523096430300AB4A95 /* IntervalTimerUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		C0FFEE000000000000000004 /* IntervalTimerWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C0FFEE000000000000000008 /* Build configuration list for PBXNativeTarget "IntervalTimerWidgetExtension" */;
+			buildPhases = (
+				C0FFEE000000000000000005 /* Sources */,
+				C0FFEE000000000000000006 /* Frameworks */,
+				C0FFEE000000000000000007 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C0FFEE000000000000000002 /* IntervalTimerWidget */,
+				C0FFEE000000000000000003 /* Shared */,
+			);
+			name = IntervalTimerWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = IntervalTimerWidgetExtension;
+			productReference = C0FFEE000000000000000001 /* IntervalTimerWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -173,6 +245,9 @@
 				LastSwiftUpdateCheck = 2660;
 				LastUpgradeCheck = 2660;
 				TargetAttributes = {
+					C0FFEE000000000000000004 = {
+						CreatedOnToolsVersion = 26.6;
+					};
 					FB55FF3A3096430200AB4A95 = {
 						CreatedOnToolsVersion = 26.6;
 					};
@@ -203,6 +278,7 @@
 				FB55FF3A3096430200AB4A95 /* IntervalTimer */,
 				FB55FF473096430200AB4A95 /* IntervalTimerTests */,
 				FB55FF513096430300AB4A95 /* IntervalTimerUITests */,
+				C0FFEE000000000000000004 /* IntervalTimerWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -223,6 +299,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		FB55FF503096430300AB4A95 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0FFEE000000000000000007 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -253,6 +336,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C0FFEE000000000000000005 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -265,6 +355,11 @@
 			isa = PBXTargetDependency;
 			target = FB55FF3A3096430200AB4A95 /* IntervalTimer */;
 			targetProxy = FB55FF533096430300AB4A95 /* PBXContainerItemProxy */;
+		};
+		C0FFEE00000000000000000E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C0FFEE000000000000000004 /* IntervalTimerWidgetExtension */;
+			targetProxy = C0FFEE00000000000000000D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -540,6 +635,64 @@
 			};
 			name = Release;
 		};
+		C0FFEE000000000000000009 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V76FX5NP3Z;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "IntervalTimerWidget-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Interval Timer";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andrelyver.IntervalTimer.IntervalTimerWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C0FFEE00000000000000000A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V76FX5NP3Z;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "IntervalTimerWidget-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Interval Timer";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andrelyver.IntervalTimer.IntervalTimerWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -575,6 +728,15 @@
 			buildConfigurations = (
 				FB55FF633096430300AB4A95 /* Debug */,
 				FB55FF643096430300AB4A95 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C0FFEE000000000000000008 /* Build configuration list for PBXNativeTarget "IntervalTimerWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0FFEE000000000000000009 /* Debug */,
+				C0FFEE00000000000000000A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -9,7 +9,7 @@ struct IntervalTimerApp: App {
 	init() {
 		let settings = SettingsStore()
 		let cuePlayer = CuePlayer(settings: settings)
-		let engine = WorkoutEngine(cuePlayer: cuePlayer)
+		let engine = WorkoutEngine(cuePlayer: cuePlayer, liveActivity: LiveActivityController())
 		cuePlayer.onInterruption = { [weak engine] in engine?.handleInterruption() }
 		_settings = State(initialValue: settings)
 		_engine = State(initialValue: engine)
